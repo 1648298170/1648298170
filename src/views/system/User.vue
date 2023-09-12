@@ -1,5 +1,5 @@
 <template>
-  <h1>我是helloworld组件</h1>
+  <div>user</div>
 </template>
 
 <script setup lang="ts">

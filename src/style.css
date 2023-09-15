@@ -19,7 +19,6 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  border: 1px solid red;
 }
 
 #app {
@@ -32,4 +31,9 @@ body {
     color: #213547;
     background-color: #ffffff;
   }
+}
+
+/* layout */
+.el-aside{
+  max-width: 220px;
 }

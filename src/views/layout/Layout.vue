@@ -4,12 +4,11 @@
             <el-container>
                 <el-aside>
                     <div class="layout-menu-container">
-                        <el-menu :collapse="false" :default-openeds="computeds.openName.value" text-color="#2D3748"
-                            active-text-color="#2D3748" :default-active="computeds.activeName.value" unique-opened>
+                        <el-menu :collapse="false" :default-openeds="computeds.openName.value" :default-active="computeds.activeName.value" unique-opened>
                             <!-- 下拉菜单 -->
                             <el-sub-menu v-for="item in store.getLeftMenuList" :key="item.name" :index="item.name">
                                 <template #title>
-                                    <img style="width:15px;height:15px;margin-right: 10px;" src="../assets/vue.svg">
+                                    <img style="width:15px;height:15px;margin-right: 10px;" src="../../assets/vue.svg">
                                     <span>{{ item.title }}</span>
                                 </template>
                                 <el-menu-item v-for="child in item.children" @click="methods.goMenuRouter(child.name)"
@@ -42,7 +41,7 @@ const router = useRouter();
 const route = useRoute();
 
 
-console.log(route);
+console.log('route',route);
 console.log(store.getLeftMenuList)
 const methods = {
     //左侧菜单跳转路由
@@ -53,6 +52,7 @@ const methods = {
 
 const computeds = {
     openName: computed(() => {
+        console.log('openName>>', route.name!.toString().split('/'))
         return route.name!.toString().split('/');
     }),
     activeName: computed(() => {
@@ -60,7 +60,7 @@ const computeds = {
             console.log(item)
             return item.meta.menuKey;
         });
-        console.log("info>>",info)
+        console.log("info>>",info!.meta.menuKey)
         if (info) {
             return info.meta.menuKey as string;
         }

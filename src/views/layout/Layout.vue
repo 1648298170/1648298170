@@ -4,7 +4,8 @@
             <el-container>
                 <el-aside>
                     <div class="layout-menu-container">
-                        <el-menu :collapse="false" :default-openeds="computeds.openName.value" :default-active="computeds.activeName.value" unique-opened>
+                        <el-menu :collapse="false" :default-openeds="computeds.openName.value"
+                            :default-active="computeds.activeName.value" unique-opened>
                             <!-- 下拉菜单 -->
                             <el-sub-menu v-for="item in store.getLeftMenuList" :key="item.name" :index="item.name">
                                 <template #title>
@@ -18,7 +19,10 @@
                     </div>
                 </el-aside>
                 <el-container>
-                    <el-header>导航头</el-header>
+                    <el-header>
+                        <div>导航头</div>
+                        <TabNavigatorBar></TabNavigatorBar>
+                    </el-header>
                     <el-main>
                         <div class="layout">
                             <router-view></router-view>
@@ -34,6 +38,7 @@
 import { useRoute, useRouter } from 'vue-router';
 import { useAppStore } from '../../store/app';
 import { computed } from 'vue';
+import TabNavigatorBar from '../../components/TabNavigatorBar.vue'
 
 
 const store = useAppStore();
@@ -41,7 +46,7 @@ const router = useRouter();
 const route = useRoute();
 
 
-console.log('route',route);
+console.log('route', route);
 console.log(store.getLeftMenuList)
 const methods = {
     //左侧菜单跳转路由
@@ -51,16 +56,16 @@ const methods = {
 }
 
 const computeds = {
+    // 默认打开的 sub-menu 的 index 的数组
     openName: computed(() => {
-        console.log('openName>>', route.name!.toString().split('/'))
         return route.name!.toString().split('/');
     }),
+    // 页面加载时默认激活菜单的 index
     activeName: computed(() => {
         let info = route.matched.find((item) => {
-            console.log(item)
             return item.meta.menuKey;
         });
-        console.log("info>>",info!.meta.menuKey)
+
         if (info) {
             return info.meta.menuKey as string;
         }
@@ -71,7 +76,7 @@ const computeds = {
 
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .layout {
     background-color: pink;
 }

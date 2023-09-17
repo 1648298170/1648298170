@@ -43,10 +43,42 @@ interface RouterChildMenuMeta {
 }
 
 // 初始化权限和基础数据
-async function initAuthBaseData(to:RouteLocationNormalized,from:RouteLocationNormalized) {
+async function initAuthBaseData(
+    to: RouteLocationNormalized,
+    from: RouteLocationNormalized
+) {
     const store = useAppStore();
     // 将路由菜单存放在store中
     await store.filterLeftMenus();
+}
+
+/**
+ * 跳转路由前：重定向tab导航栏对应的路由记录
+ * 
+ * */
+function beforeHistoryRecord(
+    to: RouteLocationNormalized,
+    from: RouteLocationNormalized
+) {
+    const store = useAppStore();
+    // 获取历史路由记录信息
+    const getHistoryRouters = store.getHistoryRouters;
+    // 添加新路由记录tab
+    let historyTitle: string = (to.meta.historyTitle as string) || '新标签';
+    // 重定向路有记录
+    let exist = getHistoryRouters.find((recordItem) => recordItem.path == to.path);
+    // 如果重定向路由记录不存在
+    if (!exist) {
+        // 向状态中的路由记录信息push新的路由记录
+        store.addHistoryRoutersItem({
+            title: historyTitle,
+            path: to.path,
+            query: to.query,
+            params: to.params,
+            time: Date.now()
+        })
+    }
+
 }
 
 
@@ -58,13 +90,14 @@ export const appRoutes = <RouterMenu[]>[
         name: 'system',
         title: '用户管理',
         component: Layout,
-        beforeEnter:[initAuthBaseData],
+        beforeEnter: [initAuthBaseData],
         children: [
             {
                 path: '/',
                 name: 'User',
                 component: User,
-                title:'用户信息',
+                title: '用户信息',
+                beforeEnter: [beforeHistoryRecord],
                 meta: {
                     menuKey: 'User',
                     historyTitle: '用户信息'
@@ -77,13 +110,14 @@ export const appRoutes = <RouterMenu[]>[
         name: 'test',
         title: 'Test',
         component: Layout,
-        beforeEnter:[initAuthBaseData],
+        beforeEnter: [initAuthBaseData],
         children: [
             {
                 path: '/test',
                 name: 'Test',
-                title:'测试',
+                title: '测试',
                 component: Test,
+                beforeEnter: [beforeHistoryRecord],
                 meta: {
                     menuKey: 'Test',
                     historyTitle: '测试'
@@ -104,6 +138,7 @@ export const otherRoutes = <RouterMenu[]>[
                 path: 'UserDetail/:id?',
                 name: 'UserDetail',
                 component: UserDetail,
+                beforeEnter: [beforeHistoryRecord],
                 meta: {
                     menuKey: 'User',
                     historyTitle: '用户详情'

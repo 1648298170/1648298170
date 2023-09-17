@@ -16,3 +16,12 @@ If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has a
    1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
    2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
 2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+
+
+nav:
+setHistoryRouters 设置历史路由信息---用于删除多个历史路由
+removeHistoryRouterItemByPath 通过路由path删除历史路由
+removeHistoryRouterItem 通过索引删除历史路由---用于删除单个历史路由
+addHistoryRoutersItem 新增历史路由
+getHistoryRoutes 获取历史路由信息
+

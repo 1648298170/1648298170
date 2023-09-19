@@ -1,10 +1,9 @@
 <template>
     <div class="tab-nav-component">
         <template v-for="(historyRecordItem, index) in store.getHistoryRouters" :key="historyRecordItem.path">
-            <div class="tab-nav-item">
-                <div :class="['tab-nav-itemTitle', index == selectIndex && 'tab-navigator-item-active']"
-                    @click.left="goTabRouter(historyRecordItem, index)"
-                    @click.right.prevent="(e) => handRightClick(e, index)">
+            <div :class="['tab-nav-item', index == selectIndex && 'tab-navigator-item-active']"
+                @click.left="goTabRouter(historyRecordItem, index)" @click.right.prevent="(e) => handRightClick(e, index)">
+                <div class="tab-nav-itemTitle">
                     {{ historyRecordItem.title }}
                 </div>
                 <div class="close-container" v-show="store.getHistoryRouters.length > 1">
@@ -19,20 +18,19 @@
                 top: `${dropModalState.y}px`,
                 left: `${dropModalState.x}px`
             }" class="tab-drop-menu">
-                <div @click="removeRouterCard(selectItem, rightClickIndex)">关闭本页</div>
-                <div @click="removeTabRouters('right')">关闭右侧</div>
-                <div @click="removeTabRouters('other')">关闭其他</div>
+                <div class="drop-menu-item" @click="removeRouterCard(selectItem, rightClickIndex)">关闭本页</div>
+                <div class="drop-menu-item" @click="removeTabRouters('right')">关闭右侧</div>
+                <div class="drop-menu-item" @click="removeTabRouters('other')">关闭其他</div>
             </div>
         </Teleport>
     </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, watch } from "vue";
+import { onMounted, reactive, ref, watch } from "vue";
 import { HistoryRouterItem, useAppStore } from "../store/app";
 import { useRouter, useRoute } from 'vue-router';
 import { fromJS } from "immutable";
-
 
 const store = useAppStore();
 const route = useRoute();
@@ -68,7 +66,7 @@ function goTabRouter(tabItem: HistoryRouterItem, tabItemIndex: number) {
  * 右击菜单
  * @param e 事件对象
  * @param index 当前被右击的历史路由索引
- * */
+ **/
 function handRightClick(e: MouseEvent, index: number) {
     dropModalState.x = e.pageX;
     dropModalState.y = e.pageY;
@@ -133,22 +131,41 @@ watch(() => route.path, (newPath) => {
     })
 })
 
+onMounted(() => {
+    document.addEventListener('click', function () {
+        dropVisible.value = false;
+    })
+})
+
 </script>
 
 <style scoped lang="less">
+@primary-active-color: #409eff;
+
+::-webkit-scrollbar {
+    display: none;
+}
+
 .tab-nav-component {
+    position: relative;
     display: flex;
-    border: 1px solid red;
+    overflow-x: scroll;
 
     .tab-nav-item {
         padding: 8px 10px;
         font-size: 14px;
-        max-width: 100px;
+        min-width: 90px;
         display: flex;
         justify-content: center;
         align-items: center;
         cursor: pointer;
-        border: 1px solid rgb(105, 100, 100);
+        border: 1px solid #e9e9eb;
+        background-color: #e9e9eb;
+        border-radius: 5px;
+
+        .tab-nav-itemTitle {
+            min-width: 40px;
+        }
 
         .close-container {
             display: flex;
@@ -158,7 +175,8 @@ watch(() => route.path, (newPath) => {
     }
 
     .tab-navigator-item-active {
-        color: #4674c4;
+        border-bottom: 0;
+        background-color: #ffffff;
         // overflow: auto;
         // text-overflow: clip;
         // white-space: normal;
@@ -166,5 +184,35 @@ watch(() => route.path, (newPath) => {
         // width: 100px;
         // flex: 0 0 100px;
     }
+
+}
+
+.tab-drop-menu {
+    position: absolute;
+    z-index: 9999;
+    background-color: #ffffff;
+    box-shadow: 0 0 1px 1px rgba(220, 220, 220, 0.7);
+    color: #333333;
+    font-size: 12px;
+    cursor: pointer;
+    bottom: -100%px;
+    left: 50%;
+    width: 90px;
+
+    .drop-menu-item {
+        padding: 10px 14px;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+
+        &:hover {
+            color: @primary-active-color;
+        }
+    }
+
 }
 </style>

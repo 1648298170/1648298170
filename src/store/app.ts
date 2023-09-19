@@ -30,7 +30,20 @@ export const useAppStore = defineStore('app', {
         /**
          * 获取tab导航的路由记录信息 historyRouters
          **/
-        getHistoryRouters: (state) => fromJS(state.historyRouters).toJS() as HistoryRouterItem[]
+        getHistoryRouters: (state) => {
+            for (let i = 1; i < 50; i++) {
+                let item = {
+                    title: '测试测试测试' + i,
+                    path: '/system',
+                    query: {},
+                    params: {},
+                    // 本地记录时间
+                    time: Date.now(),
+                }
+                state.historyRouters.push(item);
+            }
+            return fromJS(state.historyRouters).toJS() as HistoryRouterItem[]
+        }
     },
     actions: {
         /**

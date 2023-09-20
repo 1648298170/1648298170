@@ -150,18 +150,18 @@ onMounted(() => {
     position: relative;
     display: flex;
     overflow-x: scroll;
+    padding: 5px 5px 0 5px;
+    background-color: #e9e9eb;
 
     .tab-nav-item {
-        padding: 8px 10px;
         font-size: 14px;
-        min-width: 90px;
+        width: 100px;
         display: flex;
         justify-content: center;
         align-items: center;
         cursor: pointer;
-        border: 1px solid #e9e9eb;
-        background-color: #e9e9eb;
-        border-radius: 5px;
+        // background-color: #e9e9eb;
+        // border: 1px solid red;
 
         .tab-nav-itemTitle {
             min-width: 40px;
@@ -174,17 +174,44 @@ onMounted(() => {
         }
     }
 
-    .tab-navigator-item-active {
-        border-bottom: 0;
-        background-color: #ffffff;
-        // overflow: auto;
-        // text-overflow: clip;
-        // white-space: normal;
-        // border-radius: 5px;
-        // width: 100px;
-        // flex: 0 0 100px;
-    }
 
+
+}
+
+.tab-navigator-item-active {
+    position: relative;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 12px 12px 0 0;
+    background-color: #ffffff;
+    // overflow: auto;
+    // text-overflow: clip;
+    // white-space: normal;
+    // border-radius: 5px;
+    // width: 100px;
+    // flex: 0 0 100px;
+}
+
+.tab-navigator-item-active::before,
+.tab-navigator-item-active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    box-shadow: 0 0 0 40px #fff;
+    transition: .2s;
+}
+
+.tab-navigator-item-active::before {
+    left: -29.5px;
+    clip-path: inset(50% 0 0 50%);
+}
+
+.tab-navigator-item-active::after {
+    right: -29.5px;
+    clip-path: inset(50% 50% 0 0);
 }
 
 .tab-drop-menu {

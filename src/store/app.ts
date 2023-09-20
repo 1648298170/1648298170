@@ -33,7 +33,7 @@ export const useAppStore = defineStore('app', {
         getHistoryRouters: (state) => {
             for (let i = 1; i < 50; i++) {
                 let item = {
-                    title: '测试测试测试' + i,
+                    title: '测试' + i,
                     path: '/system',
                     query: {},
                     params: {},

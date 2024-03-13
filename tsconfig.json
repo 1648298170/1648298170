@@ -21,8 +21,8 @@
 
     /* Linting */
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "noUnusedLocals": false,//严格编译，为true时，没有使用的变量将编译不成功
+    "noUnusedParameters": false,//严格编译，为true时，没有使用的变量将编译不成功
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],

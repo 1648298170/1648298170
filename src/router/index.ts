@@ -67,7 +67,7 @@ function beforeHistoryRecord(
     // 添加新路由记录tab
     let historyTitle: string = (to.meta.historyTitle as string) || '新标签';
     // 重定向路有记录
-    let exist = getHistoryRouters.find((recordItem) => recordItem.path == to.path);
+    let exist = getHistoryRouters.find((recordItem: { path: any; }) => recordItem.path == to.path);
     // 如果重定向路由记录不存在
     if (!exist) {
         // 向状态中的路由记录信息push新的路由记录

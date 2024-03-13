@@ -8,6 +8,7 @@ import { useAppStore } from "../store/app";
 const User = () => import('../views/system/User.vue');
 const UserDetail = () => import('../views/system/UserDetail.vue');
 const Test = () => import('../views/test/Test.vue');
+const Scroll = () => import('../views/scroll/Scroll.vue');
 
 /** 
  * 
@@ -121,6 +122,26 @@ export const appRoutes = <RouterMenu[]>[
                 meta: {
                     menuKey: 'Test',
                     historyTitle: '测试'
+                }
+            },
+        ]
+    },
+    {
+        path: '/scroll',
+        name: 'scroll',
+        title: 'Scroll',
+        component: Layout,
+        beforeEnter: [initAuthBaseData],
+        children: [
+            {
+                path: '/scroll',
+                name: 'Scroll',
+                title: '测试',
+                component: Scroll,
+                beforeEnter: [beforeHistoryRecord],
+                meta: {
+                    menuKey: 'Scroll',
+                    historyTitle: '滑动列表'
                 }
             },
         ]

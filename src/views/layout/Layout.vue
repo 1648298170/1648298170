@@ -78,6 +78,8 @@ const computeds = {
 
 <style scoped lang="less">
 .layout {
-    background-color: pink;
+    width:100%;
+    height: 50%;
+    border: 1px solid pink;
 }
 </style>
